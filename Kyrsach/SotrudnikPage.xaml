@@ -1,0 +1,165 @@
+﻿<Page x:Class="Kyrsach.SotrudnikPage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:local="clr-namespace:Kyrsach"
+      mc:Ignorable="d" 
+      d:DesignHeight="450" d:DesignWidth="800"
+      Title="SotrudnikPage">
+
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="auto" />
+            <RowDefinition Height="*" />
+            <RowDefinition Height="auto" />
+        </Grid.RowDefinitions>
+
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="Auto" />
+            <!-- Колонка для фотографии -->
+            <ColumnDefinition Width="*" />
+            <!-- Колонка для данных -->
+            <ColumnDefinition Width="Auto" />
+            <!-- Колонка для действий (кнопки) -->
+        </Grid.ColumnDefinitions>
+
+        <!-- Панель фильтров -->
+        <StackPanel Orientation="Vertical" Grid.Row="0" Grid.Column="0" HorizontalAlignment="Right">
+            <TextBlock Text="Введите название для поиска" />
+            <TextBlock Text="Выберите пол для фильтра" />
+        </StackPanel>
+
+        <StackPanel Orientation="Vertical" Grid.Row="0" Grid.Column="1" HorizontalAlignment="Left">
+            <TextBox Name="TBoxSearch" TextChanged="TBoxSearch_TextChanged" />
+            <ComboBox Name="FiltrBox" Width="275" SelectionChanged="FiltrBox_SelectionChanged">
+                <TextBlock Text="Все" />
+                <TextBlock Text="ж" />
+                <TextBlock Text="м" />
+            </ComboBox>
+        </StackPanel>
+
+        <StackPanel Orientation="Vertical" Grid.Row="0" Grid.Column="2" VerticalAlignment="Center" HorizontalAlignment="Left">
+            <ComboBox Name="SortBox" Width="275" SelectionChanged="SortBox_SelectionChanged">
+                <TextBlock>По умолчанию</TextBlock>
+                <TextBlock>От А до Я</TextBlock>
+                <TextBlock>по стажу работы (от большего к меньшему)</TextBlock>
+                <TextBlock>по стажу работы (от большего к меньшему)</TextBlock>
+            </ComboBox>
+        </StackPanel>
+
+        <!-- ListView для отображения данных сотрудников -->
+        <ListView Name="TeatrListView" Grid.ColumnSpan="3" Grid.Row="1" HorizontalContentAlignment="Stretch">
+            <ListView.ItemTemplate>
+                <DataTemplate>
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto" />
+                            <!-- Колонка для фотографии -->
+                            <ColumnDefinition Width="*" />
+                            <!-- Колонка для данных -->
+                            <ColumnDefinition Width="Auto" />
+                            <!-- Колонка для кнопок -->
+                        </Grid.ColumnDefinitions>
+
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                        </Grid.RowDefinitions>
+
+                        <!-- Фото сотрудника -->
+                        <Image Width="200" Grid.RowSpan="8" Grid.Column="0" HorizontalAlignment="Center">
+                            <Image.Source>
+                                <Binding Path="Photo">
+                                    <Binding.TargetNullValue>
+                                        <ImageSource>
+                                            Resources/teatr_zagluwka.png
+                                        </ImageSource>
+                                    </Binding.TargetNullValue>
+                                </Binding>
+                            </Image.Source>
+                        </Image>
+
+                        <!-- Данные сотрудника -->
+                        <StackPanel Orientation="Horizontal" Grid.Row="0" Grid.Column="1">
+                            <TextBlock Text="{Binding Worker_ID}" FontWeight="Bold" />
+                            <TextBlock Text=" " FontWeight="Bold" />
+                            <TextBlock Text="{Binding Last_name}" FontWeight="Bold" />
+                            <TextBlock Text=" " FontWeight="Bold" />
+                            <TextBlock Text="{Binding First_name}" FontWeight="Bold" />
+                            <TextBlock Text=" " FontWeight="Bold" />
+                            <TextBlock Text="{Binding Patronymic}" FontWeight="Bold" />
+                        </StackPanel>
+                        <StackPanel Orientation="Horizontal" Grid.Row="1" Grid.Column="1">
+                            <TextBlock Text="Пол: " />
+                            <TextBlock Text="{Binding Gender}" />
+                        </StackPanel>
+                        <StackPanel Orientation="Horizontal" Grid.Row="2" Grid.Column="1">
+                            <TextBlock Text="Дата рождения: " />
+                            <TextBlock Text="{Binding Year_of_birth}" />
+                        </StackPanel>
+                        <StackPanel Orientation="Horizontal" Grid.Row="3" Grid.Column="1">
+                            <TextBlock Text="Телефон: " />
+                            <TextBlock Text="{Binding Phone}" />
+                        </StackPanel>
+                        <StackPanel Orientation="Horizontal" Grid.Row="4" Grid.Column="1">
+                            <TextBlock Text="Дата начала работы: " />
+                            <TextBlock Text="{Binding Year_of_admissionWork}" />
+                        </StackPanel>
+                        <StackPanel Orientation="Horizontal" Grid.Row="5" Grid.Column="1">
+                            <TextBlock Text="Адрес: " />
+                            <TextBlock Text="{Binding Address}" />
+                            <TextBlock Text=" " />
+                            <TextBlock Text="Город: " />
+                            <TextBlock Text="{Binding City}" />
+                        </StackPanel>
+                        <StackPanel Orientation="Horizontal" Grid.Row="6" Grid.Column="1">
+                            <TextBlock Text="Опыт: " />
+                            <TextBlock Text="{Binding Experience}" />
+                        </StackPanel>
+                        <StackPanel Orientation="Horizontal" Grid.Row="7" Grid.Column="1">
+                            <TextBlock Text="Должность: " />
+                            <TextBlock Text="{Binding Post}" />
+                        </StackPanel>
+
+                        <!-- Кнопки для удаления и редактирования -->
+                        <StackPanel Orientation="Horizontal" Grid.Column="2" Grid.Row="8">
+                            <Button Name="BtnDelete" Content="Удалить" Click="BtnDelete_Click" HorizontalAlignment="Right"/>
+                            <Button Name="BtnAddEdit" Content="Редактировать" Click="BtnAddEdit_Click" HorizontalAlignment="Right" />
+                        </StackPanel>
+                    </Grid>
+                </DataTemplate>
+            </ListView.ItemTemplate>
+        </ListView>
+
+        <Button Content="Добавить" Name="AddClient" Click="AddClient_Click" Grid.Row="2" Grid.Column="0" Margin="0,0,50,0" />
+        <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Grid.Row="2" Grid.ColumnSpan="3">
+            <TextBlock Text="Выводить по " />
+            <ComboBox Name="strCount" Width="100" SelectionChanged="strCount_SelectionChanged">
+                <TextBlock>5</TextBlock>
+                <TextBlock>10</TextBlock>
+                <TextBlock>20</TextBlock>
+                <TextBlock>Все</TextBlock>
+            </ComboBox>
+            <TextBlock Name="TBCount" FontSize="20" VerticalAlignment="Center" Height="25" />
+            <TextBlock Text=" из " VerticalAlignment="Center" />
+            <TextBlock Name="TBAllRecords" FontSize="20" VerticalAlignment="Center" Height="25" />
+            <Button Name="LeftDirButton" Content="&lt;" Width="20" Height="25" Click="LeftDirButton_Click" />
+            <ListBox FontSize="20" Name="PageListBox" MouseUp="PageListBox_MouseUp">
+                <ListBox.ItemsPanel>
+                    <ItemsPanelTemplate>
+                        <WrapPanel Orientation="Horizontal" />
+                    </ItemsPanelTemplate>
+                </ListBox.ItemsPanel>
+            </ListBox>
+            <Button Name="RightDirButton" Content="&gt;" Width="20" Height="25" Click="RightDirButton_Click" />
+        </StackPanel>
+    </Grid>
+
+</Page>

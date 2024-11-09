@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="34c0fd3bded648b8a509c4f003115ceb" Name="Diagram1">
+        <EntityTypeShape EntityType="TeatrModel.Employees_of_the_teatr" Width="1.5" PointX="0.75" PointY="7.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="TeatrModel.Performance" Width="1.5" PointX="0.75" PointY="2.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="TeatrModel.Tour" Width="1.5" PointX="3.75" PointY="7.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="TeatrModel.Troupe" Width="1.5" PointX="3" PointY="2.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="TeatrModel.RepertoireTeatra" Width="1.5" PointX="6" PointY="2.75" IsExpanded="true" />
+        <AssociationConnector Association="TeatrModel.FK_Troupe_Employees_of_the_teatr" ManuallyRouted="false" />
+        <AssociationConnector Association="TeatrModel.FK_RepertoireTeatra_Performances1" ManuallyRouted="false" />
+        <AssociationConnector Association="TeatrModel.FK_Troupe_Performances1" ManuallyRouted="false" />
+        <AssociationConnector Association="TeatrModel.FK_RepertoireTeatra_Tour1" ManuallyRouted="false" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>

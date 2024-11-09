@@ -1,0 +1,404 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="TeatrModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="Employees of the teatr">
+          <Key>
+            <PropertyRef Name="Worker_ID" />
+          </Key>
+          <Property Name="Worker_ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Last_name" Type="nvarchar" MaxLength="100" Nullable="false" />
+          <Property Name="First_name" Type="nvarchar" MaxLength="100" Nullable="false" />
+          <Property Name="Patronymic" Type="nvarchar" MaxLength="100" />
+          <Property Name="Year_of_birth" Type="date" Nullable="false" />
+          <Property Name="Year_of_admissionWork" Type="date" Nullable="false" />
+          <Property Name="Experience" Type="int" Nullable="false" />
+          <Property Name="Post" Type="nchar" MaxLength="100" Nullable="false" />
+          <Property Name="Gender" Type="nvarchar" MaxLength="100" Nullable="false" />
+          <Property Name="Address" Type="nvarchar" MaxLength="100" Nullable="false" />
+          <Property Name="City" Type="nvarchar" MaxLength="100" Nullable="false" />
+          <Property Name="Phone" Type="nvarchar" MaxLength="100" Nullable="false" />
+          <Property Name="Photo" Type="nvarchar" MaxLength="50" />
+        </EntityType>
+        <EntityType Name="Performances">
+          <Key>
+            <PropertyRef Name="Performances_ID" />
+          </Key>
+          <Property Name="Performances_ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="NamePerformance" Type="int" Nullable="false" />
+          <Property Name="DirectorPostanovjik" Type="nchar" MaxLength="100" Nullable="false" />
+          <Property Name="ProductionHudojnik" Type="nchar" MaxLength="100" Nullable="false" />
+          <Property Name="DerejerPostanovjik" Type="nchar" MaxLength="100" Nullable="false" />
+          <Property Name="Author" Type="nchar" MaxLength="100" Nullable="false" />
+          <Property Name="Style" Type="nchar" MaxLength="100" Nullable="false" />
+          <Property Name="TypePerformances" Type="nchar" MaxLength="100" Nullable="false" />
+        </EntityType>
+        <!--Errors Found During Generation:
+warning 6002: The table/view 'Teatr.dbo.RepertoireTeatra' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="RepertoireTeatra">
+          <Key>
+            <PropertyRef Name="Performance_IDD" />
+            <PropertyRef Name="Tour_IDD" />
+            <PropertyRef Name="PeriodEvent" />
+            <PropertyRef Name="DaysTimes" />
+            <PropertyRef Name="TicketPrice" />
+          </Key>
+          <Property Name="Performance_IDD" Type="int" Nullable="false" />
+          <Property Name="Tour_IDD" Type="int" Nullable="false" />
+          <Property Name="PeriodEvent" Type="date" Nullable="false" />
+          <Property Name="DaysTimes" Type="date" Nullable="false" />
+          <Property Name="TicketPrice" Type="nvarchar" MaxLength="50" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Tour">
+          <Key>
+            <PropertyRef Name="Tour_ID" />
+          </Key>
+          <Property Name="Tour_ID" Type="int" Nullable="false" />
+          <Property Name="NameTour" Type="nchar" MaxLength="100" Nullable="false" />
+          <Property Name="StartDate" Type="date" Nullable="false" />
+          <Property Name="EndDate" Type="date" Nullable="false" />
+          <Property Name="LocationTour" Type="nchar" MaxLength="100" Nullable="false" />
+          <Property Name="NamePerformance" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Troupe">
+          <Key>
+            <PropertyRef Name="Troupe_ID" />
+          </Key>
+          <Property Name="Troupe_ID" Type="int" Nullable="false" />
+          <Property Name="Worker_IDD" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Actors" Type="int" Nullable="false" />
+          <Property Name="NameRole" Type="nchar" MaxLength="100" Nullable="false" />
+          <Property Name="Phone" Type="nchar" MaxLength="100" Nullable="false" />
+          <Property Name="Performance_IDD" Type="int" />
+        </EntityType>
+        <Association Name="FK_RepertoireTeatra_Performances1">
+          <End Role="Performances" Type="Self.Performances" Multiplicity="1" />
+          <End Role="RepertoireTeatra" Type="Self.RepertoireTeatra" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Performances">
+              <PropertyRef Name="Performances_ID" />
+            </Principal>
+            <Dependent Role="RepertoireTeatra">
+              <PropertyRef Name="Performance_IDD" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_RepertoireTeatra_Tour1">
+          <End Role="Tour" Type="Self.Tour" Multiplicity="1" />
+          <End Role="RepertoireTeatra" Type="Self.RepertoireTeatra" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Tour">
+              <PropertyRef Name="Tour_ID" />
+            </Principal>
+            <Dependent Role="RepertoireTeatra">
+              <PropertyRef Name="Tour_IDD" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Troupe_Employees of the teatr">
+          <End Role="Employees of the teatr" Type="Self.Employees of the teatr" Multiplicity="1" />
+          <End Role="Troupe" Type="Self.Troupe" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Employees of the teatr">
+              <PropertyRef Name="Worker_ID" />
+            </Principal>
+            <Dependent Role="Troupe">
+              <PropertyRef Name="Worker_IDD" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Troupe_Performances1">
+          <End Role="Performances" Type="Self.Performances" Multiplicity="0..1" />
+          <End Role="Troupe" Type="Self.Troupe" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Performances">
+              <PropertyRef Name="Performances_ID" />
+            </Principal>
+            <Dependent Role="Troupe">
+              <PropertyRef Name="Performance_IDD" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="TeatrModelStoreContainer">
+          <EntitySet Name="Employees of the teatr" EntityType="Self.Employees of the teatr" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Performances" EntityType="Self.Performances" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Tour" EntityType="Self.Tour" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Troupe" EntityType="Self.Troupe" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="RepertoireTeatra" EntityType="Self.RepertoireTeatra" store:Type="Tables" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [RepertoireTeatra].[Performance_IDD] AS [Performance_IDD], 
+    [RepertoireTeatra].[Tour_IDD] AS [Tour_IDD], 
+    [RepertoireTeatra].[PeriodEvent] AS [PeriodEvent], 
+    [RepertoireTeatra].[DaysTimes] AS [DaysTimes], 
+    [RepertoireTeatra].[TicketPrice] AS [TicketPrice]
+    FROM [dbo].[RepertoireTeatra] AS [RepertoireTeatra]</DefiningQuery>
+          </EntitySet>
+          <AssociationSet Name="FK_RepertoireTeatra_Performances1" Association="Self.FK_RepertoireTeatra_Performances1">
+            <End Role="Performances" EntitySet="Performances" />
+            <End Role="RepertoireTeatra" EntitySet="RepertoireTeatra" />
+          </AssociationSet>
+          <AssociationSet Name="FK_RepertoireTeatra_Tour1" Association="Self.FK_RepertoireTeatra_Tour1">
+            <End Role="Tour" EntitySet="Tour" />
+            <End Role="RepertoireTeatra" EntitySet="RepertoireTeatra" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Troupe_Employees of the teatr" Association="Self.FK_Troupe_Employees of the teatr">
+            <End Role="Employees of the teatr" EntitySet="Employees of the teatr" />
+            <End Role="Troupe" EntitySet="Troupe" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Troupe_Performances1" Association="Self.FK_Troupe_Performances1">
+            <End Role="Performances" EntitySet="Performances" />
+            <End Role="Troupe" EntitySet="Troupe" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="TeatrModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="Employees_of_the_teatr">
+          <Key>
+            <PropertyRef Name="Worker_ID" />
+          </Key>
+          <Property Name="Worker_ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Last_name" Type="String" MaxLength="100" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="First_name" Type="String" MaxLength="100" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Patronymic" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="Year_of_birth" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="Year_of_admissionWork" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="Experience" Type="Int32" Nullable="false" />
+          <Property Name="Post" Type="String" MaxLength="100" FixedLength="true" Unicode="true" Nullable="false" />
+          <Property Name="Gender" Type="String" MaxLength="100" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Address" Type="String" MaxLength="100" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="City" Type="String" MaxLength="100" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Phone" Type="String" MaxLength="100" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Photo" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Troupes" Relationship="Self.FK_Troupe_Employees_of_the_teatr" FromRole="Employees_of_the_teatr" ToRole="Troupe" />
+        </EntityType>
+        <EntityType Name="Performance">
+          <Key>
+            <PropertyRef Name="Performances_ID" />
+          </Key>
+          <Property Name="Performances_ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="NamePerformance" Type="Int32" Nullable="false" />
+          <Property Name="DirectorPostanovjik" Type="String" MaxLength="100" FixedLength="true" Unicode="true" Nullable="false" />
+          <Property Name="ProductionHudojnik" Type="String" MaxLength="100" FixedLength="true" Unicode="true" Nullable="false" />
+          <Property Name="DerejerPostanovjik" Type="String" MaxLength="100" FixedLength="true" Unicode="true" Nullable="false" />
+          <Property Name="Author" Type="String" MaxLength="100" FixedLength="true" Unicode="true" Nullable="false" />
+          <Property Name="Style" Type="String" MaxLength="100" FixedLength="true" Unicode="true" Nullable="false" />
+          <Property Name="TypePerformances" Type="String" MaxLength="100" FixedLength="true" Unicode="true" Nullable="false" />
+          <NavigationProperty Name="RepertoireTeatras" Relationship="Self.FK_RepertoireTeatra_Performances1" FromRole="Performances" ToRole="RepertoireTeatra" />
+          <NavigationProperty Name="Troupes" Relationship="Self.FK_Troupe_Performances1" FromRole="Performances" ToRole="Troupe" />
+        </EntityType>
+        <EntityType Name="Tour">
+          <Key>
+            <PropertyRef Name="Tour_ID" />
+          </Key>
+          <Property Name="Tour_ID" Type="Int32" Nullable="false" />
+          <Property Name="NameTour" Type="String" MaxLength="100" FixedLength="true" Unicode="true" Nullable="false" />
+          <Property Name="StartDate" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="EndDate" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="LocationTour" Type="String" MaxLength="100" FixedLength="true" Unicode="true" Nullable="false" />
+          <Property Name="NamePerformance" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="RepertoireTeatras" Relationship="Self.FK_RepertoireTeatra_Tour1" FromRole="Tour" ToRole="RepertoireTeatra" />
+        </EntityType>
+        <EntityType Name="Troupe">
+          <Key>
+            <PropertyRef Name="Troupe_ID" />
+          </Key>
+          <Property Name="Troupe_ID" Type="Int32" Nullable="false" />
+          <Property Name="Worker_IDD" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Actors" Type="Int32" Nullable="false" />
+          <Property Name="NameRole" Type="String" MaxLength="100" FixedLength="true" Unicode="true" Nullable="false" />
+          <Property Name="Phone" Type="String" MaxLength="100" FixedLength="true" Unicode="true" Nullable="false" />
+          <Property Name="Performance_IDD" Type="Int32" />
+          <NavigationProperty Name="Employees_of_the_teatr" Relationship="Self.FK_Troupe_Employees_of_the_teatr" FromRole="Troupe" ToRole="Employees_of_the_teatr" />
+          <NavigationProperty Name="Performance" Relationship="Self.FK_Troupe_Performances1" FromRole="Troupe" ToRole="Performances" />
+        </EntityType>
+        <EntityType Name="RepertoireTeatra">
+          <Key>
+            <PropertyRef Name="Performance_IDD" />
+            <PropertyRef Name="Tour_IDD" />
+            <PropertyRef Name="PeriodEvent" />
+            <PropertyRef Name="DaysTimes" />
+            <PropertyRef Name="TicketPrice" />
+          </Key>
+          <Property Name="Performance_IDD" Type="Int32" Nullable="false" />
+          <Property Name="Tour_IDD" Type="Int32" Nullable="false" />
+          <Property Name="PeriodEvent" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="DaysTimes" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="TicketPrice" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <NavigationProperty Name="Performance" Relationship="Self.FK_RepertoireTeatra_Performances1" FromRole="RepertoireTeatra" ToRole="Performances" />
+          <NavigationProperty Name="Tour" Relationship="Self.FK_RepertoireTeatra_Tour1" FromRole="RepertoireTeatra" ToRole="Tour" />
+        </EntityType>
+        <Association Name="FK_Troupe_Employees_of_the_teatr">
+          <End Role="Employees_of_the_teatr" Type="Self.Employees_of_the_teatr" Multiplicity="1" />
+          <End Role="Troupe" Type="Self.Troupe" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Employees_of_the_teatr">
+              <PropertyRef Name="Worker_ID" />
+            </Principal>
+            <Dependent Role="Troupe">
+              <PropertyRef Name="Worker_IDD" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_RepertoireTeatra_Performances1">
+          <End Role="Performances" Type="Self.Performance" Multiplicity="1" />
+          <End Role="RepertoireTeatra" Type="Self.RepertoireTeatra" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Performances">
+              <PropertyRef Name="Performances_ID" />
+            </Principal>
+            <Dependent Role="RepertoireTeatra">
+              <PropertyRef Name="Performance_IDD" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Troupe_Performances1">
+          <End Role="Performances" Type="Self.Performance" Multiplicity="0..1" />
+          <End Role="Troupe" Type="Self.Troupe" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Performances">
+              <PropertyRef Name="Performances_ID" />
+            </Principal>
+            <Dependent Role="Troupe">
+              <PropertyRef Name="Performance_IDD" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_RepertoireTeatra_Tour1">
+          <End Role="Tour" Type="Self.Tour" Multiplicity="1" />
+          <End Role="RepertoireTeatra" Type="Self.RepertoireTeatra" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Tour">
+              <PropertyRef Name="Tour_ID" />
+            </Principal>
+            <Dependent Role="RepertoireTeatra">
+              <PropertyRef Name="Tour_IDD" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="TeatrEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Employees_of_the_teatrs" EntityType="Self.Employees_of_the_teatr" />
+          <EntitySet Name="Performances" EntityType="Self.Performance" />
+          <EntitySet Name="Tours" EntityType="Self.Tour" />
+          <EntitySet Name="Troupes" EntityType="Self.Troupe" />
+          <EntitySet Name="RepertoireTeatras" EntityType="Self.RepertoireTeatra" />
+          <AssociationSet Name="FK_Troupe_Employees_of_the_teatr" Association="Self.FK_Troupe_Employees_of_the_teatr">
+            <End Role="Employees_of_the_teatr" EntitySet="Employees_of_the_teatrs" />
+            <End Role="Troupe" EntitySet="Troupes" />
+          </AssociationSet>
+          <AssociationSet Name="FK_RepertoireTeatra_Performances1" Association="Self.FK_RepertoireTeatra_Performances1">
+            <End Role="Performances" EntitySet="Performances" />
+            <End Role="RepertoireTeatra" EntitySet="RepertoireTeatras" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Troupe_Performances1" Association="Self.FK_Troupe_Performances1">
+            <End Role="Performances" EntitySet="Performances" />
+            <End Role="Troupe" EntitySet="Troupes" />
+          </AssociationSet>
+          <AssociationSet Name="FK_RepertoireTeatra_Tour1" Association="Self.FK_RepertoireTeatra_Tour1">
+            <End Role="Tour" EntitySet="Tours" />
+            <End Role="RepertoireTeatra" EntitySet="RepertoireTeatras" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="TeatrModelStoreContainer" CdmEntityContainer="TeatrEntities">
+          <EntitySetMapping Name="Employees_of_the_teatrs">
+            <EntityTypeMapping TypeName="TeatrModel.Employees_of_the_teatr">
+              <MappingFragment StoreEntitySet="Employees of the teatr">
+                <ScalarProperty Name="Worker_ID" ColumnName="Worker_ID" />
+                <ScalarProperty Name="Last_name" ColumnName="Last_name" />
+                <ScalarProperty Name="First_name" ColumnName="First_name" />
+                <ScalarProperty Name="Patronymic" ColumnName="Patronymic" />
+                <ScalarProperty Name="Year_of_birth" ColumnName="Year_of_birth" />
+                <ScalarProperty Name="Year_of_admissionWork" ColumnName="Year_of_admissionWork" />
+                <ScalarProperty Name="Experience" ColumnName="Experience" />
+                <ScalarProperty Name="Post" ColumnName="Post" />
+                <ScalarProperty Name="Gender" ColumnName="Gender" />
+                <ScalarProperty Name="Address" ColumnName="Address" />
+                <ScalarProperty Name="City" ColumnName="City" />
+                <ScalarProperty Name="Phone" ColumnName="Phone" />
+                <ScalarProperty Name="Photo" ColumnName="Photo" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Performances">
+            <EntityTypeMapping TypeName="TeatrModel.Performance">
+              <MappingFragment StoreEntitySet="Performances">
+                <ScalarProperty Name="Performances_ID" ColumnName="Performances_ID" />
+                <ScalarProperty Name="NamePerformance" ColumnName="NamePerformance" />
+                <ScalarProperty Name="DirectorPostanovjik" ColumnName="DirectorPostanovjik" />
+                <ScalarProperty Name="ProductionHudojnik" ColumnName="ProductionHudojnik" />
+                <ScalarProperty Name="DerejerPostanovjik" ColumnName="DerejerPostanovjik" />
+                <ScalarProperty Name="Author" ColumnName="Author" />
+                <ScalarProperty Name="Style" ColumnName="Style" />
+                <ScalarProperty Name="TypePerformances" ColumnName="TypePerformances" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Tours">
+            <EntityTypeMapping TypeName="TeatrModel.Tour">
+              <MappingFragment StoreEntitySet="Tour">
+                <ScalarProperty Name="Tour_ID" ColumnName="Tour_ID" />
+                <ScalarProperty Name="NameTour" ColumnName="NameTour" />
+                <ScalarProperty Name="StartDate" ColumnName="StartDate" />
+                <ScalarProperty Name="EndDate" ColumnName="EndDate" />
+                <ScalarProperty Name="LocationTour" ColumnName="LocationTour" />
+                <ScalarProperty Name="NamePerformance" ColumnName="NamePerformance" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Troupes">
+            <EntityTypeMapping TypeName="TeatrModel.Troupe">
+              <MappingFragment StoreEntitySet="Troupe">
+                <ScalarProperty Name="Troupe_ID" ColumnName="Troupe_ID" />
+                <ScalarProperty Name="Worker_IDD" ColumnName="Worker_IDD" />
+                <ScalarProperty Name="Actors" ColumnName="Actors" />
+                <ScalarProperty Name="NameRole" ColumnName="NameRole" />
+                <ScalarProperty Name="Phone" ColumnName="Phone" />
+                <ScalarProperty Name="Performance_IDD" ColumnName="Performance_IDD" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="RepertoireTeatras">
+            <EntityTypeMapping TypeName="TeatrModel.RepertoireTeatra">
+              <MappingFragment StoreEntitySet="RepertoireTeatra">
+                <ScalarProperty Name="Performance_IDD" ColumnName="Performance_IDD" />
+                <ScalarProperty Name="Tour_IDD" ColumnName="Tour_IDD" />
+                <ScalarProperty Name="PeriodEvent" ColumnName="PeriodEvent" />
+                <ScalarProperty Name="DaysTimes" ColumnName="DaysTimes" />
+                <ScalarProperty Name="TicketPrice" ColumnName="TicketPrice" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>
